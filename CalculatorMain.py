@@ -1,66 +1,89 @@
-# Functions for arithmatic operations
-def add(a,b):
-    return a+b
+#TODO: Write the functions for arithmatic operations here
+#These functions should cover Task 2
+def add(a, b):
+    return a + b
 
-def subtract(a,b):
-    return a-b
-    
-def multiply(a,b):
-    return a*b
+def subtract(a, b):
+    return a - b
 
-def divide(a,b):
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
     try:
-        return a/b
-    except Exception as e:
-        print("e")
-        
-def power(a,b):
-    return a^b
+        return a / b
+    except ZeroDivisionError:
+        print("float division by zero")
+        return None
 
-def remainder(a,b): 
-    return a%b
+def power(a, b):
+    return a ** b
 
-# Get User inuts for values
-def select_op(choice):
-    if(choice == '#'):
-        return -1
-    elif(choice in ('+','-','*','/','^','%')):
-        while True:
-            first_input = input("Enter first number: ")
-            print(first_input)
-            try:
-                num1 = float(first_input) 
-                break
-            except:
-                print("Not a valid number,please enter again")
-                continue
-        while True:
-            second_input = input("Enter second number: ")
-            print(second_input)            
-            try:
-                num2 = float(second_input) 
-                break
-            except:
-                print("Not a valid number,please enter again")
-                continue
-            
-        if(choice == '+'):
-            print(num1, '+', num2, '=', add(num1, num2))
-        elif(choice == '-'):
-            print(num1, '-', num2, '=', subtract(num1, num2))
-        elif(choice == '*'):
-            print(num1, '*', num2, '=', multiply(num1, num2))
-        elif(choice == '/'):
-            print(num1, '/', num2, '=', divide(num1, num2))
-        elif(choice == '^'):
-            print(num1, '^', num2, '=', power(num1, num2))
-        elif(choice == '%'):
-            print(num1, '%', num2, '=', remainder(num1, num2))
+def remainder(a, b):
+    return a % b
+
+# Function to input numbers and handle errors
+def input_number(prompt):
+    while True:
+        value = input(prompt)
+         
+        if isinstance(value, str) and value.endswith('$'):
+            print(value)
+            return value[-1]
+        elif isinstance(value, str) and value.endswith('#'):
+            print(value)
+            print("Done. Terminating")
+            exit()
         else:
-            print("Something Went Wrong")
+            print(value)
+            return float(value)
+               
+#-------------------------------------
+#TODO: Write the select_op(choice) function here
+#This function sould cover Task 1 (Section 2) and Task 3
+def select_op(choice):
+    if choice in '+-*/^%':
+        a = input_number("Enter first number: ")
+
+        if not a =='$':
+            b = input_number("Enter second number: ")
+        
+        if a =='$' or b == '$':
+            return
+        else:
+            if choice == '+':
+                result = add(a, b)
+                print(f"{a:.1f} + {b:.1f} = {result:.1f}")
+            elif choice == '-':
+                result = subtract(a, b)
+                print(f"{a:.1f} - {b:.1f} = {result:.1f}")
+            elif choice == '*':
+                result = multiply(a, b)
+                print(f"{a:.1f} * {b:.1f} = {result:.1f}")
+            elif choice == '/':
+                result = divide(a, b)
+                if result is None:
+                    print(f"{a:.1f} / {b:.1f} = None")
+                else:
+                    print(f"{a:.1f} / {b:.1f} = {result:.1f}")
+            elif choice == '^':
+                result = power(a, b)
+                print(f"{a:.1f} ^ {b:.1f} = {result:.1f}")
+            elif choice == '%':
+                result = remainder(a, b)
+                print(f"{a:.1f} % {b:.1f} = {result:.1f}")
+    elif choice == '#': #terminate
+        return -1
+    elif choice == '$': #reset
+        return 0
     else:
         print("Unrecognized operation")
-# Main loop. 
+
+
+#End the select_op(choice) function here
+#-------------------------------------
+#This is the main loop. It covers Task 1 (Section 1)
+#YOU DO NOT NEED TO CHANGE ANYTHING BELOW THIS LINE
 while True:
   print("Select operation.")
   print("1.Add      : + ")
